@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="color-scheme" content="dark">
+  <title>光筛 LumaCull · 摄影师选片台</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="boot" id="boot">
+    <div class="boot-brand">
+      <span class="brand-mark brand-mark--large" aria-hidden="true">
+        <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17.5"/><path d="M24 6.5 31 24l-7 17.5M41.2 15.5 24 28 6.8 15.5M36.9 39 20 24l4-17.5M11.1 39 24 20l12.9 19M6.8 32.5 20 24l17.2 8.5"/></svg>
+      </span>
+      <div class="boot-word"><strong>光筛</strong><span>LUMACULL</span></div>
+    </div>
+    <p id="bootStatus">正在准备选片台…</p>
+    <div class="boot-line"><span></span></div>
+  </div>
+
+  <svg class="svg-defs" aria-hidden="true">
+    <defs>
+      <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.5 7.5a2 2 0 0 1 2-2h3.2l2 2h7.8a2 2 0 0 1 2 2v8.8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z"/><path d="M3.8 10.2h16.4"/></symbol>
+      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></symbol>
+      <symbol id="i-undo" viewBox="0 0 24 24"><path d="m8.5 8-4 4 4 4"/><path d="M4.9 12h9.4a5 5 0 0 1 0 10h-1.8"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V5.4A1.4 1.4 0 0 1 10.4 4h3.2A1.4 1.4 0 0 1 15 5.4V7m2.2 0-.7 12.1a1.5 1.5 0 0 1-1.5 1.4H9a1.5 1.5 0 0 1-1.5-1.4L6.8 7"/><path d="M10 10.7v5.8M14 10.7v5.8"/></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19.5 9A8 8 0 1 0 20 14"/><path d="M20 4.2V9h-4.8"/></symbol>
+      <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2.2"/><path d="M14.5 4.8v14.4"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.7"/><path d="M9.7 9.2a2.4 2.4 0 1 1 3.1 2.3c-.6.2-.8.7-.8 1.3v.4"/><path d="M12 17.1h.01"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11M17.5 6.5l-11 11"/></symbol>
+      <symbol id="i-left" viewBox="0 0 24 24"><path d="m14.5 5.5-6.6 6.5 6.6 6.5"/></symbol>
+      <symbol id="i-right" viewBox="0 0 24 24"><path d="m9.5 5.5 6.6 6.5-6.6 6.5"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5.5 12h13"/></symbol>
+      <symbol id="i-fit" viewBox="0 0 24 24"><path d="M9 4.5H4.5V9M15 4.5h4.5V9M9 19.5H4.5V15M15 19.5h4.5V15"/></symbol>
+      <symbol id="i-reveal" viewBox="0 0 24 24"><path d="M13.5 4.5h6v6M19.2 4.8l-8.7 8.7"/><path d="M18.5 14.5v4a1.5 1.5 0 0 1-1.5 1.5H5.5A1.5 1.5 0 0 1 4 18.5V7a1.5 1.5 0 0 1 1.5-1.5h4"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.7 5.3 6v5.5c0 4.2 2.8 7.3 6.7 8.8 3.9-1.5 6.7-4.6 6.7-8.8V6Z"/><path d="m9.1 12 1.9 1.9 3.9-4"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5.5 12.5 4 4 9-9"/></symbol>
+      <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="9.5" r="1.6"/><path d="m4.5 17 4.7-4.5 3.4 3.1 2.7-2.4 4.2 4"/></symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3.5 8.5a2 2 0 0 1 2-2h2l1.4-2h6.2l1.4 2h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z"/><circle cx="12" cy="12.7" r="3.4"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.5c.5 4.7 2.8 7 7.5 7.5-4.7.5-7 2.8-7.5 7.5-.5-4.7-2.8-7-7.5-7.5 4.7-.5 7-2.8 7.5-7.5Z"/><path d="M18.5 16.5c.2 1.7 1 2.5 2.7 2.7-1.7.2-2.5 1-2.7 2.7-.2-1.7-1-2.5-2.7-2.7 1.7-.2 2.5-1 2.7-2.7Z"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="app" id="app" data-view="welcome">
+    <header class="topbar">
+      <button class="brand" id="brand" type="button" aria-label="光筛 LumaCull">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="17.5"/><path d="M24 6.5 31 24l-7 17.5M41.2 15.5 24 28 6.8 15.5M36.9 39 20 24l4-17.5M11.1 39 24 20l12.9 19M6.8 32.5 20 24l17.2 8.5"/></svg>
+        </span>
+        <span class="brand-cn">光筛</span>
+        <span class="brand-en">LUMACULL</span>
+      </button>
+
+      <span class="topbar-rule" aria-hidden="true"></span>
+
+      <button class="folder-chip" id="folderChip" type="button" title="打开照片文件夹">
+        <span class="folder-chip-icon"><svg class="icon"><use href="#i-folder"/></svg></span>
+        <span class="folder-chip-text">
+          <strong id="folderName">选择照片文件夹</strong>
+          <small id="folderPath">把一整组照片交给光筛</small>
+        </span>
+        <svg class="icon folder-chevron"><use href="#i-chevron"/></svg>
+      </button>
+
+      <div class="topbar-spacer"></div>
+
+      <div class="topbar-status" id="topMeta" aria-live="polite"></div>
+
+      <button class="top-action top-action--undo" id="undoBtn" type="button" disabled title="撤回上一次删除 (↑)">
+        <kbd>↑</kbd><span>撤回</span><span class="undo-badge" id="undoCount" hidden>0</span>
+      </button>
+      <button class="top-action top-action--delete" id="deleteBtn" type="button" disabled title="移入回收站 (↓)">
+        <kbd>↓</kbd><span>删除</span>
+      </button>
+
+      <span class="topbar-rule topbar-rule--short" aria-hidden="true"></span>
+
+      <button class="icon-btn" id="rescanBtn" type="button" title="重新扫描文件夹 (R)" aria-label="重新扫描文件夹" disabled>
+        <svg class="icon"><use href="#i-refresh"/></svg>
+      </button>
+      <button class="icon-btn" id="infoBtn" type="button" title="显示 / 隐藏照片信息 (I)" aria-label="显示或隐藏照片信息" aria-pressed="true">
+        <svg class="icon"><use href="#i-panel"/></svg>
+      </button>
+      <button class="icon-btn" id="helpBtn" type="button" title="快捷键 (?)" aria-label="查看快捷键">
+        <svg class="icon"><use href="#i-help"/></svg>
+      </button>
+    </header>
+
+    <main class="main">
+      <section class="welcome" id="welcome" aria-label="欢迎">
+        <div class="welcome-grid">
+          <div class="welcome-copy">
+            <div class="eyebrow"><span class="eyebrow-dot"></span>KEYBOARD-FIRST CULLING</div>
+            <h1>删掉犹豫，<br><span>留下好照片。</span></h1>
+            <p class="welcome-lead">为摄影师打造的高速选片台。左右浏览，上下定夺，<br class="wide-only">让一整组照片在键盘上快速沉淀。</p>
+            <div class="cta-row">
+              <button class="btn btn--primary" id="welcomeOpen" type="button">
+                <svg class="icon"><use href="#i-folder"/></svg>
+                <span>打开照片文件夹</span>
+                <kbd>O</kbd>
+              </button>
+              <button class="btn btn--quiet" id="welcomeHelp" type="button">
+                快捷键 <kbd>?</kbd>
+              </button>
+            </div>
+            <div class="recent-block" id="recentBlock" hidden>
+              <div class="section-label">最近打开</div>
+              <div class="recent-list" id="recentList"></div>
+            </div>
+            <div class="welcome-assurance">
+              <svg class="icon"><use href="#i-shield"/></svg>
+              <span>删除只会移入应用回收站，按 <kbd>↑</kbd> 随时恢复</span>
+            </div>
+          </div>
+
+          <div class="welcome-art" aria-hidden="true">
+            <div class="art-halo"></div>
+            <div class="art-grid"></div>
+            <div class="photo-print photo-print--main">
+              <div class="print-window"><img src="/static/assets/welcome-forest.jpg" alt=""></div>
+              <div class="print-caption"><span>FOREST / 07:14</span><span>01</span></div>
+            </div>
+            <div class="photo-print photo-print--side">
+              <div class="print-window"><img src="/static/assets/welcome-lake.jpg" alt=""></div>
+              <div class="print-caption"><span>DOLOMITES</span><span>18</span></div>
+            </div>
+            <div class="photo-print photo-print--mini">
+              <div class="print-window"><img src="/static/assets/welcome-mist.jpg" alt=""></div>
+            </div>
+            <div class="art-badge">
+              <span class="art-badge-icon"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="14"/><path d="M24 10 29 24l-5 14M37.5 17 24 27l-13.5-10M34 36.5 21 24l3-14M14 36.5 24 20l10 16.5M10.5 27 24 24l13.5 3"/></svg></span>
+              <span><strong>01—48</strong><small>LIGHT TABLE</small></span>
+            </div>
+            <div class="art-vertical">CULL WITH RHYTHM · 2026</div>
+          </div>
+        </div>
+
+        <footer class="welcome-footer">
+          <div class="key-guide">
+            <div class="key-guide-item"><span class="key-combo"><kbd>←</kbd><kbd>→</kbd></span><span>浏览前后</span></div>
+            <div class="key-guide-item"><kbd>↑</kbd><span>撤回删除</span></div>
+            <div class="key-guide-item"><kbd>↓</kbd><span>移入回收站</span></div>
+            <div class="key-guide-item"><kbd>?</kbd><span>全部快捷键</span></div>
+          </div>
+          <div class="local-note"><span class="local-dot"></span>LOCAL ONLY · 照片不会离开你的电脑</div>
+        </footer>
+      </section>
+
+      <section class="workspace" id="workspace" hidden aria-label="选片工作区">
+        <div class="viewer">
+          <div class="stage" id="stage">
+            <div class="stage-top">
+              <div class="frame-count">
+                <span class="frame-index" id="frameIndex">01</span>
+                <span class="frame-divider">/</span>
+                <span class="frame-total" id="frameTotal">00</span>
+              </div>
+              <div class="stage-title">
+                <h1 id="stageFilename">—</h1>
+                <p id="stageSub">—</p>
+              </div>
+              <div class="stage-badges">
+                <span class="format-badge" id="formatBadge">JPG</span>
+              </div>
+            </div>
+
+            <button class="stage-nav stage-nav--prev" id="prevBtn" type="button" aria-label="上一张照片">
+              <svg class="icon"><use href="#i-left"/></svg>
+            </button>
+            <button class="stage-nav stage-nav--next" id="nextBtn" type="button" aria-label="下一张照片">
+              <svg class="icon"><use href="#i-right"/></svg>
+            </button>
+
+            <div class="canvas" id="canvas">
+              <div class="canvas-glow" aria-hidden="true"></div>
+              <div class="photo-frame" id="photoFrame">
+                <img class="photo-layer" id="photoLayerA" alt="" draggable="false">
+                <img class="photo-layer" id="photoLayerB" alt="" draggable="false">
+              </div>
+              <div class="developing" id="photoLoading" hidden>
+                <span class="developing-ring"></span>
+                <span>正在显影</span>
+              </div>
+              <div class="image-error" id="imageError" hidden>
+                <span class="image-error-icon"><svg class="icon"><use href="#i-image"/></svg></span>
+                <strong>这张照片暂时无法预览</strong>
+                <span id="imageErrorDetail">文件可能已损坏或格式暂不支持</span>
+              </div>
+            </div>
+
+            <div class="stage-bottom">
+              <div class="zoom-tools">
+                <button class="zoom-btn" id="zoomOut" type="button" aria-label="缩小"><svg class="icon"><use href="#i-minus"/></svg></button>
+                <button class="zoom-value" id="zoomLabel" type="button" title="点击复位">100%</button>
+                <button class="zoom-btn" id="zoomIn" type="button" aria-label="放大"><svg class="icon"><use href="#i-plus"/></svg></button>
+                <button class="zoom-btn zoom-btn--fit" id="zoomFit" type="button" aria-label="适应窗口"><svg class="icon"><use href="#i-fit"/></svg></button>
+              </div>
+              <div class="stage-hint" id="stageHint">滚轮缩放 · 双击放大</div>
+              <div class="stage-filemeta" id="stageFileMeta">—</div>
+            </div>
+          </div>
+
+          <div class="filmstrip-panel">
+            <div class="filmstrip-head">
+              <span class="section-label">全部照片 <b id="filmCount">0</b></span>
+              <span class="filmstrip-tip"><kbd>←</kbd><kbd>→</kbd> 浏览</span>
+            </div>
+            <div class="filmstrip" id="filmstrip" role="listbox" aria-label="照片列表"></div>
+            <div class="filmstrip-empty" id="filmstripEmpty" hidden>这里还没有照片</div>
+          </div>
+        </div>
+
+        <aside class="inspector" id="inspector" aria-label="照片信息">
+          <div class="inspector-scroll">
+            <div class="inspector-head">
+              <span class="section-label">照片信息</span>
+              <span class="info-state" id="infoState">READY</span>
+            </div>
+            <h2 class="info-name" id="infoName">—</h2>
+            <div class="info-badges" id="infoBadges"></div>
+
+            <section class="info-section" id="exifSection">
+              <div class="section-label">拍摄参数</div>
+              <div class="camera-line">
+                <strong id="infoCamera">—</strong>
+                <span id="infoLens"></span>
+              </div>
+              <dl class="spec-grid">
+                <div><dt>光圈</dt><dd id="infoAperture">—</dd></div>
+                <div><dt>快门</dt><dd id="infoShutter">—</dd></div>
+                <div><dt>感光度</dt><dd id="infoIso">—</dd></div>
+                <div><dt>焦距</dt><dd id="infoFocal">—</dd></div>
+                <div class="spec-wide"><dt>拍摄时间</dt><dd id="infoTaken">—</dd></div>
+              </dl>
+              <p class="no-exif" id="noExif" hidden>这张照片没有可读取的 EXIF 信息</p>
+            </section>
+
+            <section class="info-section">
+              <div class="section-label">文件</div>
+              <dl class="file-list">
+                <div><dt>尺寸</dt><dd id="infoDimensions">—</dd></div>
+                <div><dt>大小</dt><dd id="infoSize">—</dd></div>
+                <div><dt>格式</dt><dd id="infoFormat">—</dd></div>
+                <div><dt>修改时间</dt><dd id="infoModified">—</dd></div>
+              </dl>
+            </section>
+
+            <button class="reveal-btn" id="revealBtn" type="button">
+              <svg class="icon"><use href="#i-reveal"/></svg>
+              在资源管理器中显示
+            </button>
+
+            <section class="shortcut-card">
+              <div class="section-label">操作</div>
+              <div class="shortcut-row"><span class="key-combo"><kbd>←</kbd><kbd>→</kbd></span><span>上一张 / 下一张</span></div>
+              <div class="shortcut-row"><kbd>↑</kbd><span>撤回上一次删除</span></div>
+              <div class="shortcut-row"><kbd>↓</kbd><span>移入应用回收站</span></div>
+              <div class="shortcut-row shortcut-row--more" id="allShortcutsBtn" role="button" tabindex="0">查看全部快捷键 <span>?</span></div>
+            </section>
+          </div>
+        </aside>
+      </section>
+
+      <section class="finished" id="finished" hidden aria-label="选片结果">
+        <div class="finished-inner">
+          <div class="finished-mark"><svg class="icon"><use id="finishedIconUse" href="#i-check"/></svg></div>
+          <div class="eyebrow"><span class="eyebrow-dot"></span><span id="finishedEyebrow">SESSION COMPLETE</span></div>
+          <h1 id="finishedTitle">这一组已经筛完了。</h1>
+          <p id="finishedCopy">留下的照片都还在原文件夹里。删除的照片保存在应用回收站，随时可以撤回。</p>
+          <div class="finished-actions">
+            <button class="btn btn--primary" id="finishedUndo" type="button"><kbd>↑</kbd> 撤回上一次删除</button>
+            <button class="btn btn--quiet" id="finishedOpen" type="button"><svg class="icon"><use href="#i-folder"/></svg> 打开另一组</button>
+          </div>
+          <div class="finished-hint">关闭窗口不会清空回收站；下次打开同一文件夹仍可继续撤回。</div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast-layer" id="toastLayer" aria-live="polite" aria-atomic="false"></div>
+    <div class="sr-only" id="live" aria-live="polite"></div>
+  </div>
+
+  <div class="modal-backdrop" id="helpModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <header class="modal-head">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-dot"></span>KEYBOARD MAP</div>
+          <h2 id="helpTitle">只用手，也能筛完整组照片。</h2>
+        </div>
+        <button class="icon-btn modal-close" id="helpClose" type="button" aria-label="关闭">
+          <svg class="icon"><use href="#i-close"/></svg>
+        </button>
+      </header>
+      <div class="modal-body">
+        <div class="modal-col">
+          <div class="section-label">选片</div>
+          <div class="modal-row"><span class="key-combo"><kbd>←</kbd><kbd>→</kbd></span><span><strong>浏览照片</strong><small>选择上一张或下一张</small></span></div>
+          <div class="modal-row"><kbd>↓</kbd><span><strong>删除照片</strong><small>移入应用回收站，不会直接永久删除</small></span></div>
+          <div class="modal-row"><kbd>↑</kbd><span><strong>撤回删除</strong><small>恢复最近一次删除的照片</small></span></div>
+          <div class="modal-row"><span class="key-combo"><kbd>O</kbd></span><span><strong>打开文件夹</strong><small>换一组照片继续筛选</small></span></div>
+          <div class="modal-row"><span class="key-combo"><kbd>R</kbd></span><span><strong>重新扫描</strong><small>刷新文件夹里的照片</small></span></div>
+        </div>
+        <div class="modal-col">
+          <div class="section-label">查看</div>
+          <div class="modal-row"><span class="key-combo"><kbd>+</kbd><kbd>−</kbd></span><span><strong>缩放照片</strong><small>放大查看焦点与细节</small></span></div>
+          <div class="modal-row"><kbd>0</kbd><span><strong>适应窗口</strong><small>重置缩放和位置</small></span></div>
+          <div class="modal-row"><kbd>I</kbd><span><strong>信息面板</strong><small>显示或隐藏照片参数</small></span></div>
+          <div class="modal-row"><kbd>?</kbd><span><strong>快捷键</strong><small>打开这份操作说明</small></span></div>
+          <div class="modal-row"><kbd>Esc</kbd><span><strong>关闭 / 复位</strong><small>关闭弹窗或退出放大</small></span></div>
+        </div>
+      </div>
+      <footer class="modal-foot">
+        <div class="safety-pill"><svg class="icon"><use href="#i-shield"/></svg>删除可撤回</div>
+        <span>照片只在本机处理 · 不上传任何内容</span>
+        <button class="btn btn--quiet modal-done" id="helpDone" type="button">知道了 <kbd>Esc</kbd></button>
+      </footer>
+    </div>
+  </div>
+</body>
+</html>
